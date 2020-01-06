@@ -15,11 +15,13 @@
     "express-github-webhook": "^1.0.6",
     "express-hbs": "^2.3.0",
     "express-session": "^1.17.0",
+    "express-ws": "^4.0.0",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
     "https": "^1.0.0",
     "mongoose": "^5.8.4",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
