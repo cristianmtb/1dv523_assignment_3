@@ -1,24 +1,24 @@
-import createError from 'http-errors'
 import express from 'express'
-import path from 'path'
-import cookieParser from 'cookie-parser'
+import http from 'http'
 import logger from 'morgan'
+import bodyParser from 'body-parser'
+import github from 'express-github-webhook'
+require('dotenv').config()
 
 var app = express()
-
-app.use(logger('dev'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
-app.use(function (req, res, next) {
-  next(createError(404))
+const PORT = process.env.PORT
+const server = http.createServer(app).listen(PORT, function () {
+  console.log('Listening on port ' + PORT)
 })
-app.use(function (err, req, res, next) {
-  res.locals.message = err.message
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
-  res.status(err.status || 500)
-  res.render('error')
+const webhook = github({ path: '/hook', secret: process.env.secret })
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(webhook)
+webhook.on('issues', function (repo, data) {
+  console.log(data)
+})
+webhook.on('error', function (err, req, res) {
+  console.log(err)
 })
 
 export default app
