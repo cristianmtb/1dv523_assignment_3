@@ -19,25 +19,27 @@ app.use(bodyParser.json())
 const webhook = github({ path: '/hook', secret: process.env.secret })
 app.use(webhook)
 // listen to wekhook events
-// webhook.on('issues', function (repo, data) {
-//   console.log(data)
-// })
 webhook.on('error', function (err, req, res) {
   console.log(err)
 })
 
 app.ws('/echo', function (ws, req) {
-  webhook.on('issues', function (repo, data) {
-    ws.send(data.issue.title)
-  })
   ws.on('connection', function (wot) {
-    console.log('wat')
+    console.log('connected')
   })
-  ws.on('message', function (msg) {
-    ws.send(msg)
+  webhook.on('issues', function (repo, data) {
+    const toSend = {
+      action: data.action,
+      issue: data.issue.title,
+      url: data.issue.html_url,
+      auhtor: data.sender.login,
+      body: data.issue.body,
+      changes: data.changes
+    }
+    ws.send(JSON.stringify(toSend))
   })
-  ws.send('connected')
-  console.log('socket')
+  webhook.on('issue_comment', function (repo, data) {
+    ws.send(`New comment added to Issue: ${data.issue.title} by ${data.issue.user.login}`)
+  })
 })
 
-export default app
