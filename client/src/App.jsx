@@ -1,37 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 export default class App extends React.Component {
 
   socket
+  state
   constructor(props) {
     super(props)
     this.socket = new WebSocket("ws:localhost:3000");
     this.socket.addEventListener("message", (event) => this.receive(event));
+    this.state={
+      issues:[]
+    }
   }
 
+
   receive(event){
-    console.log(JSON.parse(event.data))
+    const msg = JSON.parse(event.data)
+    if(msg.type === 'initial') {
+      this.setState({
+        issues:msg.data
+      })
+      console.log(msg.data)
+    }
+    else if (msg.type === 'update'){
+
+    }
   }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        {
+          this.state.issues.map((issue)=>(
+            <p>
+              Hello {issue.title}
+            </p>
+          ))
+        }
       </div>
     );
   }

@@ -21,18 +21,33 @@ const webhook = github({ path: '/hook', secret: process.env.secret })
 app.use(webhook)
 
 expressWs.getWss().on('connection', function (ws) {
-  var client = octonode.client(process.env.secret)
-  var repo = client.repo('1dv523/cb223ai-examination-3')
+  const client = octonode.client(process.env.secret)
+  const repo = client.repo('1dv523/cb223ai-examination-3')
   repo.issues(function (callback, body, header) {
-    console.log(body)
+    const issues = []
+    body.map((issue) => {
+      issues.push({
+        id: issue.number,
+        title: issue.title,
+        url: issue.html_url,
+        auhtor: issue.user.login,
+        body: issue.body
+      })
+    })
+    ws.send(JSON.stringify({
+      type: 'initial',
+      data: issues
+    }))
   })
-  // getAllIssues()
-  ws.send(JSON.stringify({ action: 'ping' }))
 })
+
 app.ws('', function (ws, req) {
   webhook.on('issues', function (repo, data) {
     const toSend = parseUpdate(data)
-    ws.send(JSON.stringify(toSend))
+    ws.send(JSON.stringify({
+      type: 'update',
+      data: toSend
+    }))
   })
   webhook.on('issue_comment', function (repo, data) {
     ws.send(`New comment added to Issue: ${data.issue.title} by ${data.issue.user.login}`)

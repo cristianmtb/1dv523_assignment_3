@@ -7,14 +7,25 @@ export function parseUpdate (data) {
     url: data.issue.html_url,
     auhtor: data.sender.login,
     body: data.issue.body,
-    changes: data.changes
+    changes: data.changes,
+    id: data.issue.number
   }
 }
 
 export function getAllIssues () {
-  var client = octonode.client(process.env.secret)
+  const issues = []
+  const client = octonode.client(process.env.secret)
   const repo = client.repo('1dv523/cb223ai-examination-3')
   repo.issues(function (callback, body, header) {
-    console.log(body)
+    body.map((issue) => {
+      issues.push({
+        id: issue.number,
+        title: issue.title,
+        url: issue.html_url,
+        auhtor: issue.user.login,
+        body: issue.body
+      })
+    })
   })
+  return issues
 }
