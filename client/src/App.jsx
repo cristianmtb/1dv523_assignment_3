@@ -5,10 +5,14 @@ import './App.css';
 export default class App extends React.Component {
 
   socket
-
   constructor(props) {
     super(props)
-    this.socket = new WebSocket("ws:localhost:3000/echo");
+    this.socket = new WebSocket("ws:localhost:3000");
+    this.socket.addEventListener("message", (event) => this.receive(event));
+  }
+
+  receive(event){
+    console.log(JSON.parse(event.data))
   }
 
   render() {
