@@ -3,7 +3,7 @@ const octonode = require('octonode')
 export function parseUpdate (data) {
   return {
     action: data.action,
-    issue: data.issue.title,
+    title: data.issue.title,
     url: data.issue.html_url,
     auhtor: data.sender.login,
     body: data.issue.body,
