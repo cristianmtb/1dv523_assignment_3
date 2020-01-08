@@ -42,7 +42,6 @@ expressWs.getWss().on('connection', function (ws) {
             data: issues
           }))
         } catch (error) {
-          console.log("muie")
         }
       }
     })
@@ -51,8 +50,7 @@ expressWs.getWss().on('connection', function (ws) {
 
 app.ws('', function (ws, req) {
   ws.on('close', function (code, reason) {
-    console.log('hellow')
-    ws.close()
+    ws.close(1, '')
   })
   webhook.on('issues', function (repo, data) {
     if (ws.readyState === 1) {
@@ -72,7 +70,6 @@ app.ws('', function (ws, req) {
           data: toSend
         }))
       } catch (error) {
-        console.log("muie")
       }
     }
   })
@@ -87,7 +84,6 @@ app.ws('', function (ws, req) {
       try {
         ws.send(JSON.stringify({ type: 'comment', data: toSend }))
       } catch (error) {
-        console.log("muie")
       }
     }
   })

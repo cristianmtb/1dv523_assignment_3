@@ -3,13 +3,14 @@ import './App.css'
 import Notification from './Notification'
 
 export default class App extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
+    // For some reason standard JS doesn't recognize the websocket
     this.socket = new WebSocket('ws:192.168.0.104:3000')
 
     this.socket.addEventListener('message', (event) => this.receive(event))
     this.state = {
-      notifs:[],
+      notifs: [],
       issues: [],
       notification: {
         active: false,
@@ -18,13 +19,12 @@ export default class App extends React.Component {
     }
   }
 
-  receive(event) {
+  receive (event) {
     const msg = JSON.parse(event.data)
     if (msg.type === 'initial') {
       this.setState({
         issues: msg.data
       })
-      console.log(msg.data)
     } else if (msg.type === 'update') {
       this.notifyUpdate(msg.data)
       this.update(msg.data)
@@ -33,31 +33,35 @@ export default class App extends React.Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <div className='App'>
         <div className='Issue-div'>
-        <h1>Issues:</h1>
+          <h1>Issues:</h1>
           {
             this.state.issues.map((issue) => (
-              <div className="Issue">
+              <div
+                key={issue.id}
+                className='Issue'
+              >
                 <h3>{issue.title} #{issue.id}</h3>
                 <a href={issue.url}>Go to Issue</a>
                 <p>Author: {issue.author}</p>
-                <div className="Line"></div>
-                <div className="BodyTitle">Body:</div>
+                <div className='Line' />
+                <div className='BodyTitle'>Body:</div>
                 {issue.body}
-                <div className="Line"></div>
+                <div className='Line' />
                 Number of comments: {issue.comments}
               </div>
             ))
           }
         </div>
-        <div className="Notification-Div">
+        <div className='Notification-Div'>
           <h1>Notifications:</h1>
           {
-            this.state.notifs.map((notif)=>(
+            this.state.notifs.map((notif) => (
               <Notification
+                key={notif}
                 message={notif}
               />
             ))
@@ -67,9 +71,8 @@ export default class App extends React.Component {
     )
   }
 
-  update(data) {
+  update (data) {
     switch (data.action) {
-
       case 'opened':
         this.addIssue(data)
         break
@@ -87,7 +90,7 @@ export default class App extends React.Component {
     }
   }
 
-  addIssue(data) {
+  addIssue (data) {
     const aux = this.state.issues
     aux.push({
       id: data.id,
@@ -98,11 +101,11 @@ export default class App extends React.Component {
       comments: data.comments
     })
     this.setState({
-      issues: aux,
+      issues: aux
     })
   }
 
-  removeIssue(data) {
+  removeIssue (data) {
     const aux = this.state.issues
     const index = aux.findIndex(x => x.id === data.id)
     aux.splice(index, 1)
@@ -111,7 +114,7 @@ export default class App extends React.Component {
     })
   }
 
-  editIssue(data) {
+  editIssue (data) {
     const aux = this.state.issues
     const index = aux.findIndex(x => x.id === data.id)
     aux[index] = {
@@ -127,27 +130,26 @@ export default class App extends React.Component {
     })
   }
 
-  notifyComment(data) {
-    let message = `A comment has been ${data.action} to issue number ${data.issue}`
+  notifyComment (data) {
+    const message = `A comment has been ${data.action} to issue number ${data.issue}`
     const aux = this.state.notifs
     aux.push(message)
     const temp = this.state.issues
     const index = temp.findIndex(x => x.id === data.issue)
-    if (data.action === "deleted") temp[index].comments--
+    if (data.action === 'deleted') temp[index].comments--
     else if (data.action === 'created') temp[index].comments++
     this.setState({
       issues: temp,
-      notifs:aux
+      notifs: aux
     })
   }
 
-  notifyUpdate(data) {
-    let message = `Issue number ${data.id} has been ${data.action}`
+  notifyUpdate (data) {
+    const message = `Issue number ${data.id} has been ${data.action}`
     const temp = this.state.notifs
     temp.push(message)
     this.setState({
-      notifs:temp
+      notifs: temp
     })
   }
-
 }
