@@ -1,9 +1,9 @@
 {
   "name": "cb223ai-examination-2",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "standard --fix & babel-node ./src/app"
+    "start": "babel-node ./src/app"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -13,13 +13,9 @@
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "express-github-webhook": "^1.0.6",
-    "express-hbs": "^2.3.0",
-    "express-session": "^1.17.0",
     "express-ws": "^4.0.0",
-    "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
-    "https": "^1.0.0",
-    "mongoose": "^5.8.4",
+    "https": "^1.0.0", 
     "morgan": "~1.9.1",
     "octonode": "^0.9.5",
     "socket.io": "^2.3.0"

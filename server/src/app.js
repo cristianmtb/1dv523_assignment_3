@@ -1,5 +1,6 @@
 import express from 'express'
 import http from 'http'
+import path from 'path'
 import logger from 'morgan'
 import bodyParser from 'body-parser'
 import github from 'express-github-webhook'
@@ -7,17 +8,29 @@ import octonode from 'octonode'
 require('dotenv').config()
 
 var app = express()
-
+// Server starting
 const PORT = process.env.PORT
 const server = http.createServer(app).listen(PORT, function () {
   console.log('Listening on port ' + PORT)
 })
+// this lines registers the websocket for the server
 const expressWs = require('express-ws')(app, server)
 // prepare middlewares and webhook connection
 app.use(logger('dev'))
 app.use(bodyParser.json())
 const webhook = github({ path: '/hook', secret: process.env.secret })
 app.use(webhook)
+/**
+ * Serve the React app
+ */
+app.use(express.static(path.join(__dirname, 'build')))
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+
+/**
+ * Handle the initial websocket connection
+ */
 
 expressWs.getWss().on('connection', function (ws) {
   if (ws.readyState === 1) {
@@ -48,6 +61,9 @@ expressWs.getWss().on('connection', function (ws) {
   }
 })
 
+/**
+ * Handle webhooks trough websocket
+ */
 app.ws('', function (ws, req) {
   ws.on('close', function (code, reason) {
     ws.close(1, '')
