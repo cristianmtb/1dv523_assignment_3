@@ -2,6 +2,7 @@
 ### Auhtor
 Cristian Babesh - cb223ai
 ## URL
+46.101.156.130
 ## Node Modules used
 #### ExpressJS
 #### ReactJS
@@ -23,4 +24,4 @@ Cristian Babesh - cb223ai
 ## Reverse proxy
 ## Process manager
 ## TLS certificates
-## Environment varianbles
+## Environment variables
