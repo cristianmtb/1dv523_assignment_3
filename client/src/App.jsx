@@ -6,7 +6,7 @@ export default class App extends React.Component {
   constructor (props) {
     super(props)
     // For some reason standard JS doesn't recognize the websocket
-    this.socket = new WebSocket('ws:192.168.0.104:3000')
+    this.socket = new WebSocket('wss:46.101.156.130:443')
 
     this.socket.addEventListener('message', (event) => this.receive(event))
     this.state = {
