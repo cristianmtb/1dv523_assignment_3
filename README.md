@@ -35,7 +35,7 @@ I used Digital Ocean for hosting.
   1. Configured nginx to use HTTPS as opposed to HTTP.
   1. When configuring nginx for HTTPS I generated an 4096 bits DH group for the TLS handshake as described here: https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04#step-4-%E2%80%93-enabling-the-changes-in-nginx Step 1, at the end. The long DH group is supposed to proved more secure TLS encryption for the connections..
 ## Dev vs Production
-The most striking difference between development and production is for React, where in order to go from development to production you have to build the project, the built being closer to a classing static website rather than a nodeJS application.
+The most striking difference between development and production is for React, where in order to go from development to production you have to build the project, the built being closer to a classic static website rather than a nodeJS application.
 
 ExpressJS remains relatively the same between dev and production, with the difference being that instead of having it now in localhost you have the server exposed to the internet, so it's important to have good security before doing so.
 ## Reverse proxy
