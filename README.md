@@ -53,4 +53,4 @@ In our case I had to self sign the TLS certificate, because most authorities tha
 ## Environment variables
 An environment variable is setup seperately from the code and it's useful when you have a general variable you need to use in multiple places throughout the your application, but you also need to change it easily. A good example would be a url for a server that you make multiple calls to.
 
-In my case I only used environment variables both in React and in Express to hold the ports at which the two applications listen two (for react only in development). Also for Express, I hold the github secret key in an environment variable.
+In my case I only used environment variables both in React and in Express to hold the ports at which the two applications listen to (for react only in development). Also for Express, I hold the github secret key in an environment variable.
