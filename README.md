@@ -33,7 +33,7 @@ I used Digital Ocean for hosting.
   1. Configured the websocket to use wss instead of ws, which is the secured version.
   1. Configured the firewall on the server to only allow nginx and the SSH client to use the network. The server only listens to ports 22 (OpenSSH), 80 (nginx) and 443 (nginx).
   1. Configured nginx to use HTTPS as opposed to HTTP.
-  1. When configuring nginx for HTTPS I generated an 4096 bits DH group for the TLS handshake as described here: https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04#step-4-%E2%80%93-enabling-the-changes-in-nginx Step 1, at the end. The long DH group is supposed to proved more secure TLS encryption for the connections..
+  1. When configuring nginx for HTTPS I generated an 4096 bits DH group for the TLS handshake as described here: https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04#step-4-%E2%80%93-enabling-the-changes-in-nginx Step 1, at the end. The long DH group is supposed to provide more secure TLS encryption for the connections.
 ## Dev vs Production
 The most striking difference between development and production is for React, where in order to go from development to production you have to build the project, the built being closer to a classic static website rather than a nodeJS application.
 
