@@ -2,7 +2,7 @@
 ### Auhtor
 Cristian Babesh - cb223ai
 ## URL
-46.101.156.130
+https://46.101.156.130/  
 I used Digital Ocean for hosting.
 ## Node Modules used
 #### ExpressJS
