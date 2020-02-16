@@ -1,4 +1,5 @@
 # Examination 3 Report
+The task in this assignment is creating a github issue tracker using the github webhook and github API.
 ### Auhtor
 Cristian Babesh - cb223ai
 ## URL
